@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
+//    id("com.google.devtools.ksp")
+//    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -47,6 +49,11 @@ android {
 }
 
 dependencies {
+    implementation("com.google.dagger:hilt-android:2.59.2")
+    implementation("com.google.dagger:hilt-android-compiler:2.59.2")
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation("com.squareup.retrofit2:converter-kotlinx-serialization:3.0.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
     implementation("androidx.core:core-ktx:1.18.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
     implementation("androidx.activity:activity-compose:1.13.0")
