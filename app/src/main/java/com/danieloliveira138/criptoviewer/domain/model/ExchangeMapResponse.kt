@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ExchangeMapResponse(
-    val data: List<Exchange>,
+    val data: List<Exchange>?,
     val status: ExchangeStatus
 )

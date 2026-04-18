@@ -8,8 +8,9 @@ data class Exchange(
     val id: Int,
     val name: String,
     val slug: String,
-    @SerialName("is_active") val isActive: Int,
-    val status: String,
-    @SerialName("first_historical_data") val firstHistoricalData: String,
-    @SerialName("last_historical_data") val lastHistoricalData: String
+    @SerialName("first_historical_data") val firstHistoricalData: String?,
+    @SerialName("last_historical_data") val lastHistoricalData: String?,
+    @SerialName("is_active") val isActive: Int?,
+    @SerialName("is_listed") val isListed: Int?,
+    @SerialName("is_redistributable") val isRedistributable: Int?,
 )
