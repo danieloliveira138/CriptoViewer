@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,7 +28,9 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -35,6 +38,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -45,6 +49,8 @@ import com.danieloliveira138.criptoviewer.ui.theme.CardBg
 import com.danieloliveira138.criptoviewer.ui.theme.Orange
 import com.danieloliveira138.criptoviewer.ui.theme.TextDisabled
 import com.danieloliveira138.criptoviewer.ui.theme.TextPrimary
+
+private const val LOAD_MORE_THRESHOLD = 5
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -100,12 +106,26 @@ private fun MainListContent(
                 HorizontalDivider(color = Orange, thickness = 2.dp)
             }
 
+            val listState = rememberLazyListState()
+            val shouldLoadMore by remember {
+                derivedStateOf {
+                    val lastVisible = listState.layoutInfo.visibleItemsInfo.lastOrNull()
+                        ?: return@derivedStateOf false
+                    lastVisible.index >= listState.layoutInfo.totalItemsCount - LOAD_MORE_THRESHOLD
+                }
+            }
+
+            LaunchedEffect(shouldLoadMore) {
+                if (shouldLoadMore) onEvent(MainListEvent.LoadNextPage)
+            }
+
             PullToRefreshBox(
                 isRefreshing = state.isRefreshing,
                 onRefresh = { onEvent(MainListEvent.Refresh) },
                 modifier = Modifier.fillMaxSize(),
             ) {
                 LazyColumn(
+                    state = listState,
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.fillMaxSize(),
@@ -115,6 +135,19 @@ private fun MainListContent(
                             exchange = exchange,
                             onClick = { onEvent(MainListEvent.OnExchangeClick(exchange)) },
                         )
+                    }
+
+                    if (state.isLoadingMore) {
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 16.dp),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                CircularProgressIndicator(color = Orange)
+                            }
+                        }
                     }
                 }
             }
@@ -190,5 +223,13 @@ private fun ExchangeItem(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun Preview() {
+    ExchangeItem(exchange = ExchangeItem(id = 1, name = "Exchange 1", isActive = true)) {
+
     }
 }

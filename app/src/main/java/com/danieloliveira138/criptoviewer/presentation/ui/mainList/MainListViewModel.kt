@@ -18,6 +18,11 @@ class MainListViewModel @Inject constructor(
     private val exchangeUseCase: ExchangeUseCase,
 ) : ViewModel() {
 
+    private companion object {
+        const val PAGE_SIZE = 30
+        const val FIRST_ELEMENT = 1
+    }
+
     private val _state = MutableStateFlow(MainListState())
     val state: StateFlow<MainListState> = _state.asStateFlow()
 
@@ -31,6 +36,10 @@ class MainListViewModel @Inject constructor(
     fun onEvent(event: MainListEvent) {
         when (event) {
             is MainListEvent.Refresh -> loadExchanges(isRefresh = true)
+            is MainListEvent.LoadNextPage -> {
+                val s = _state.value
+                if (!s.isLoadingMore && !s.isLoading && s.hasMorePages) loadNextPage()
+            }
             is MainListEvent.OnExchangeClick -> sendEffect(
                 MainListEffect.NavigateTo("detail/${event.exchange.id}")
             )
@@ -44,17 +53,44 @@ class MainListViewModel @Inject constructor(
                 else it.copy(isLoading = true, error = null)
             }
             try {
-                val response = exchangeUseCase.getExchangesList(start = 1, limit = 100)
+                val response = exchangeUseCase.getExchangesList(
+                    start = FIRST_ELEMENT,
+                    limit = PAGE_SIZE
+                )
                 _state.update {
                     it.copy(
                         isLoading = false,
                         isRefreshing = false,
                         exchanges = response,
+                        currentPage = 1,
+                        hasMorePages = response.size >= PAGE_SIZE,
                     )
                 }
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isRefreshing = false, error = e.message) }
                 sendEffect(MainListEffect.ShowToast(e.message ?: "Failed to load exchanges"))
+            }
+        }
+    }
+
+    private fun loadNextPage() {
+        viewModelScope.launch {
+            val currentPage = _state.value.currentPage
+            val start = currentPage * PAGE_SIZE + 1
+            _state.update { it.copy(isLoadingMore = true) }
+            try {
+                val response = exchangeUseCase.getExchangesList(start = start, limit = PAGE_SIZE)
+                _state.update {
+                    it.copy(
+                        isLoadingMore = false,
+                        exchanges = it.exchanges + response,
+                        currentPage = currentPage + 1,
+                        hasMorePages = response.size >= PAGE_SIZE,
+                    )
+                }
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoadingMore = false, error = e.message) }
+                sendEffect(MainListEffect.ShowToast(e.message ?: "Failed to load more exchanges"))
             }
         }
     }
