@@ -37,7 +37,7 @@ object NetworkModule {
         return Retrofit.Builder()
             .baseUrl("https://pro-api.coinmarketcap.com/")
             .client(okHttpClient)
-            .addConverterFactory(Json.Default.asConverterFactory(contentType))
+            .addConverterFactory(Json.asConverterFactory(contentType))
             .build()
             .create(ExchangeAPI::class.java)
     }
