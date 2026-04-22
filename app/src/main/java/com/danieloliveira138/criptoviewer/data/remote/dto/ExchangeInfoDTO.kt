@@ -1,10 +1,10 @@
-package com.danieloliveira138.criptoviewer.domain.model
+package com.danieloliveira138.criptoviewer.data.remote.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ExchangeInfo(
+data class ExchangeInfoDTO(
     val id: Int,
     val name: String?,
     val slug: String?,
@@ -21,5 +21,5 @@ data class ExchangeInfo(
     @SerialName("weekly_visits") val weeklyVisits: Long?,
     @SerialName("spot_volume_usd") val spotVolumeUsd: Double?,
     @SerialName("spot_volume_last_updated") val spotVolumeLastUpdated: String?,
-    val urls: ExchangeUrls?
+    val urls: ExchangeUrlsDTO?
 )

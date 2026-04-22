@@ -1,10 +1,10 @@
-package com.danieloliveira138.criptoviewer.domain.model
+package com.danieloliveira138.criptoviewer.data.remote.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ExchangeStatus(
+data class ExchangeStatusDTO(
     val timestamp: String,
     @SerialName("error_code") val errorCode: Int?,
     @SerialName("error_message") val errorMessage: String?,

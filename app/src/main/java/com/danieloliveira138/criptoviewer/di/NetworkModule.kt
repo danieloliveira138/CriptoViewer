@@ -1,7 +1,7 @@
-package com.danieloliveira138.criptoviewer.core
+package com.danieloliveira138.criptoviewer.di
 
 import com.danieloliveira138.criptoviewer.BuildConfig
-import com.danieloliveira138.criptoviewer.data.remote.APIService
+import com.danieloliveira138.criptoviewer.data.remote.api.ExchangeAPI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,13 +32,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): APIService {
+    fun provideRetrofit(okHttpClient: OkHttpClient): ExchangeAPI {
         val contentType = "application/json".toMediaType()
         return Retrofit.Builder()
             .baseUrl("https://pro-api.coinmarketcap.com/")
             .client(okHttpClient)
             .addConverterFactory(Json.Default.asConverterFactory(contentType))
             .build()
-            .create(APIService::class.java)
+            .create(ExchangeAPI::class.java)
     }
 }

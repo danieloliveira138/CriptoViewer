@@ -1,10 +1,10 @@
-package com.danieloliveira138.criptoviewer.domain.model
+package com.danieloliveira138.criptoviewer.data.remote.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Exchange(
+data class ExchangeDTO(
     val id: Int,
     val name: String,
     val slug: String,
