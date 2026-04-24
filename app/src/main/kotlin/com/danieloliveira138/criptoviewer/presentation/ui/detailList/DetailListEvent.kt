@@ -1,0 +1,6 @@
+package com.danieloliveira138.criptoviewer.presentation.ui.detailList
+
+sealed class DetailListEvent {
+    data class OnLinkClicked(val link: String) : DetailListEvent()
+    data object OnBackClicked : DetailListEvent()
+}
