@@ -8,7 +8,6 @@ import com.danieloliveira138.criptoviewer.presentation.navigation.Screen
 
 fun NavGraphBuilder.detailsListScreen(navController: NavController) {
     composable(route = Screen.DetailListScreen.route) {
-        val id = it.arguments?.getString("id") ?: ""
         val viewModel = hiltViewModel<ExchangeDetailsViewModel>()
         ExchangeDetailsScreen(
             navController = navController,
