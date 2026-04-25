@@ -4,7 +4,7 @@ import com.danieloliveira138.criptoviewer.domain.model.ExchangeAsset
 import com.danieloliveira138.criptoviewer.domain.model.ExchangeInfo
 import com.danieloliveira138.criptoviewer.domain.model.ExchangeItem
 import com.danieloliveira138.criptoviewer.domain.repository.ExchangeRepository
-import com.danieloliveira138.criptoviewer.core.Result
+import com.danieloliveira138.criptoviewer.core.network.Result
 import com.danieloliveira138.criptoviewer.core.exceptions.EmptyResponseException
 import com.danieloliveira138.criptoviewer.core.exceptions.ExchangeIdIsNull
 import javax.inject.Inject

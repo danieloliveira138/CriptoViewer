@@ -1,4 +1,4 @@
-package com.danieloliveira138.criptoviewer.presentation.ui.detailList
+package com.danieloliveira138.criptoviewer.presentation.ui.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -11,7 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import com.danieloliveira138.criptoviewer.core.Result
+import com.danieloliveira138.criptoviewer.core.network.Result
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update

@@ -1,8 +1,8 @@
-package com.danieloliveira138.criptoviewer.presentation.ui.mainList
+package com.danieloliveira138.criptoviewer.presentation.ui.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.danieloliveira138.criptoviewer.core.Result
+import com.danieloliveira138.criptoviewer.core.network.Result
 import com.danieloliveira138.criptoviewer.domain.usecase.ExchangeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

@@ -1,4 +1,4 @@
-package com.danieloliveira138.criptoviewer.presentation.ui.mainList
+package com.danieloliveira138.criptoviewer.presentation.ui.list
 
 sealed class MainListEffect {
     data class NavigateTo(val route: String) : MainListEffect()

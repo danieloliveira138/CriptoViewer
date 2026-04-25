@@ -1,4 +1,4 @@
-package com.danieloliveira138.criptoviewer.presentation.ui.detailList
+package com.danieloliveira138.criptoviewer.presentation.ui.detail
 
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController

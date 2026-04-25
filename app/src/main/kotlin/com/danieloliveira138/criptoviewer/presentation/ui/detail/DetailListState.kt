@@ -1,4 +1,4 @@
-package com.danieloliveira138.criptoviewer.presentation.ui.detailList
+package com.danieloliveira138.criptoviewer.presentation.ui.detail
 
 import com.danieloliveira138.criptoviewer.domain.model.CoinItem
 import com.danieloliveira138.criptoviewer.domain.model.ExchangeInfo
