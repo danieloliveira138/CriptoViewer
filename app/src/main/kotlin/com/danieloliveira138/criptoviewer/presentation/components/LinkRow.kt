@@ -1,4 +1,4 @@
 package com.danieloliveira138.criptoviewer.presentation.components
 
-class TODO {
+class LinkRow {
 }
