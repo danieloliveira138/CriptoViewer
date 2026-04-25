@@ -17,7 +17,7 @@ class MainListScreenTest {
 
     @Test
     fun loadingState_showsHeader() {
-        val state = MainListState(isLoading = true)
+        val state = ExchangeListState(isLoading = true)
         
         composeTestRule.setContent {
             MainListContent(
@@ -35,7 +35,7 @@ class MainListScreenTest {
             ExchangeItem(id = 1, name = "Binance", isActive = true),
             ExchangeItem(id = 2, name = "Coinbase", isActive = true)
         )
-        val state = MainListState(exchanges = exchanges)
+        val state = ExchangeListState(exchanges = exchanges)
 
         composeTestRule.setContent {
             MainListContent(
@@ -51,8 +51,8 @@ class MainListScreenTest {
     @Test
     fun exchangeItemClick_triggersEvent() {
         val exchange = ExchangeItem(id = 1, name = "Binance", isActive = true)
-        val state = MainListState(exchanges = listOf(exchange))
-        val onEvent: (MainListEvent) -> Unit = mock()
+        val state = ExchangeListState(exchanges = listOf(exchange))
+        val onEvent: (ExchangeListEvent) -> Unit = mock()
 
         composeTestRule.setContent {
             MainListContent(
@@ -63,6 +63,6 @@ class MainListScreenTest {
 
         composeTestRule.onNodeWithText("Binance").performClick()
 
-        verify(onEvent).invoke(MainListEvent.OnExchangeClick(exchange))
+        verify(onEvent).invoke(ExchangeListEvent.OnExchangeClick(exchange))
     }
 }

@@ -34,7 +34,7 @@ class DetailListScreenTest {
         val assets = listOf(
             CoinItem(name = "Bitcoin", price = "$60,000")
         )
-        val state = DetailListState(
+        val state = ExchangeDetailsState(
             isLoading = false,
             exchangeInfo = exchangeInfo,
             exchangeAssets = assets
@@ -55,18 +55,18 @@ class DetailListScreenTest {
 
     @Test
     fun backButtonClick_triggersEvent() {
-        val onEvent: (DetailListEvent) -> Unit = mock()
+        val onEvent: (ExchangeDetailsEvent) -> Unit = mock()
 
         composeTestRule.setContent {
             ExchangeDetailsContent(
-                state = DetailListState(),
+                state = ExchangeDetailsState(),
                 onEvent = onEvent
             )
         }
 
         composeTestRule.onNodeWithContentDescription("Back").performClick()
 
-        verify(onEvent).invoke(DetailListEvent.OnBackClicked)
+        verify(onEvent).invoke(ExchangeDetailsEvent.OnBackClicked)
     }
 
     @Test
@@ -82,8 +82,8 @@ class DetailListScreenTest {
             makerFee = 0.1,
             takerFee = 0.1
         )
-        val state = DetailListState(exchangeInfo = exchangeInfo)
-        val onEvent: (DetailListEvent) -> Unit = mock()
+        val state = ExchangeDetailsState(exchangeInfo = exchangeInfo)
+        val onEvent: (ExchangeDetailsEvent) -> Unit = mock()
 
         composeTestRule.setContent {
             ExchangeDetailsContent(
@@ -94,6 +94,6 @@ class DetailListScreenTest {
 
         composeTestRule.onNodeWithText("https://www.binance.com ↗").performClick()
 
-        verify(onEvent).invoke(DetailListEvent.OnLinkClicked("https://www.binance.com"))
+        verify(onEvent).invoke(ExchangeDetailsEvent.OnLinkClicked("https://www.binance.com"))
     }
 }

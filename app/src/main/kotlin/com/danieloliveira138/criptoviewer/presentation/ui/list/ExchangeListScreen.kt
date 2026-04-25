@@ -44,7 +44,7 @@ private const val LOAD_MORE_THRESHOLD = 5
 @Composable
 fun MainListScreen(
     navController: NavController,
-    viewModel: MainListViewModel = hiltViewModel(),
+    viewModel: ExchangeListViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
@@ -52,8 +52,8 @@ fun MainListScreen(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is MainListEffect.NavigateTo -> navController.navigate(effect.route)
-                is MainListEffect.ShowToast ->
+                is ExchangeListEffect.NavigateTo -> navController.navigate(effect.route)
+                is ExchangeListEffect.ShowToast ->
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
             }
         }
@@ -68,8 +68,8 @@ fun MainListScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainListContent(
-    state: MainListState? = null,
-    onEvent: (MainListEvent) -> Unit,
+    state: ExchangeListState? = null,
+    onEvent: (ExchangeListEvent) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -104,12 +104,12 @@ fun MainListContent(
             }
 
             LaunchedEffect(shouldLoadMore) {
-                if (shouldLoadMore) onEvent(MainListEvent.LoadNextPage)
+                if (shouldLoadMore) onEvent(ExchangeListEvent.LoadNextPage)
             }
 
             PullToRefreshBox(
                 isRefreshing = state?.isRefreshing ?: false,
-                onRefresh = { onEvent(MainListEvent.Refresh) },
+                onRefresh = { onEvent(ExchangeListEvent.Refresh) },
                 modifier = Modifier.fillMaxSize(),
             ) {
                 LazyColumn(
@@ -124,7 +124,7 @@ fun MainListContent(
                     ) { exchange ->
                         ExchangeItem(
                             exchange = exchange,
-                            onClick = { onEvent(MainListEvent.OnExchangeClick(exchange)) },
+                            onClick = { onEvent(ExchangeListEvent.OnExchangeClick(exchange)) },
                         )
                     }
 
@@ -174,7 +174,7 @@ fun Preview() {
     )
 
     MainListContent(state =
-        MainListState(
+        ExchangeListState(
             isLoading = false,
             isRefreshing = false,
             isLoadingMore = false,

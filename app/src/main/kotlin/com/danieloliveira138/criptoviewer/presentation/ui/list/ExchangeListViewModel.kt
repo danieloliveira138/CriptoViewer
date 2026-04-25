@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainListViewModel @Inject constructor(
+class ExchangeListViewModel @Inject constructor(
     private val exchangeUseCase: ExchangeUseCase,
 ) : ViewModel() {
 
@@ -24,25 +24,25 @@ class MainListViewModel @Inject constructor(
         const val FIRST_ELEMENT = 1
     }
 
-    private val _state = MutableStateFlow(MainListState())
-    val state: StateFlow<MainListState> = _state.asStateFlow()
+    private val _state = MutableStateFlow(ExchangeListState())
+    val state: StateFlow<ExchangeListState> = _state.asStateFlow()
 
-    private val _effect = Channel<MainListEffect>(Channel.BUFFERED)
+    private val _effect = Channel<ExchangeListEffect>(Channel.BUFFERED)
     val effect = _effect.receiveAsFlow()
 
     init {
         loadExchanges(isRefresh = false)
     }
 
-    fun onEvent(event: MainListEvent) {
+    fun onEvent(event: ExchangeListEvent) {
         when (event) {
-            is MainListEvent.Refresh -> loadExchanges(isRefresh = true)
-            is MainListEvent.LoadNextPage -> {
+            is ExchangeListEvent.Refresh -> loadExchanges(isRefresh = true)
+            is ExchangeListEvent.LoadNextPage -> {
                 val s = _state.value
                 if (!s.isLoadingMore && !s.isLoading && s.hasMorePages) loadNextPage()
             }
-            is MainListEvent.OnExchangeClick -> sendEffect(
-                MainListEffect.NavigateTo("details/${event.exchange.id}")
+            is ExchangeListEvent.OnExchangeClick -> sendEffect(
+                ExchangeListEffect.NavigateTo("details/${event.exchange.id}")
             )
         }
     }
@@ -78,7 +78,7 @@ class MainListViewModel @Inject constructor(
                         )
                     }
                     sendEffect(
-                        MainListEffect.ShowToast(
+                        ExchangeListEffect.ShowToast(
                             result.exception.message ?: "Failed to load exchanges"))
                 }
             }
@@ -108,13 +108,13 @@ class MainListViewModel @Inject constructor(
                 is Result.Error -> {
                     val exceptionMessage = result.exception.message ?: "Failed to load more exchanges"
                     _state.update { it.copy(isLoadingMore = false, error = exceptionMessage) }
-                    sendEffect(MainListEffect.ShowToast(exceptionMessage))
+                    sendEffect(ExchangeListEffect.ShowToast(exceptionMessage))
                 }
             }
         }
     }
 
-    private fun sendEffect(effect: MainListEffect) {
+    private fun sendEffect(effect: ExchangeListEffect) {
         viewModelScope.launch { _effect.send(effect) }
     }
 }

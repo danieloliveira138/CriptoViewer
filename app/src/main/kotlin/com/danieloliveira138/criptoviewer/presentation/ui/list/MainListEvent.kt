@@ -1,9 +1,0 @@
-package com.danieloliveira138.criptoviewer.presentation.ui.list
-
-import com.danieloliveira138.criptoviewer.domain.model.ExchangeItem
-
-sealed class MainListEvent {
-    data object Refresh : MainListEvent()
-    data object LoadNextPage : MainListEvent()
-    data class OnExchangeClick(val exchange: ExchangeItem) : MainListEvent()
-}

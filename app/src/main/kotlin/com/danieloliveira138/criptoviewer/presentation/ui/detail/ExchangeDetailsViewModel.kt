@@ -29,9 +29,9 @@ class ExchangeDetailsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val exchangeId: String? = savedStateHandle["exchangeId"]
-    private val _state = MutableStateFlow(DetailListState())
-    val state: StateFlow<DetailListState> = _state.asStateFlow()
-    private val _effect = Channel<ExchangeDetailEffect>(Channel.BUFFERED)
+    private val _state = MutableStateFlow(ExchangeDetailsState())
+    val state: StateFlow<ExchangeDetailsState> = _state.asStateFlow()
+    private val _effect = Channel<ExchangeDetailsEffect>(Channel.BUFFERED)
     val effect = _effect.receiveAsFlow()
 
     init {
@@ -39,20 +39,20 @@ class ExchangeDetailsViewModel @Inject constructor(
         loadExchangeAssets(exchangeId = exchangeId)
     }
 
-    fun onEvent(event: DetailListEvent) {
+    fun onEvent(event: ExchangeDetailsEvent) {
         when (event) {
-            is DetailListEvent.OnLinkClicked -> navigateToBrowser(event.link)
-           is  DetailListEvent.OnBackClicked -> navigateBack()
+            is ExchangeDetailsEvent.OnLinkClicked -> navigateToBrowser(event.link)
+           is  ExchangeDetailsEvent.OnBackClicked -> navigateBack()
         }
     }
 
     private fun navigateBack() {
-        viewModelScope.launch { _effect.send(ExchangeDetailEffect.navigateBack )}
+        viewModelScope.launch { _effect.send(ExchangeDetailsEffect.navigateBack )}
     }
 
     private fun navigateToBrowser(url: String) {
         viewModelScope.launch {
-            _effect.send(ExchangeDetailEffect.navigateToBrowser(url))
+            _effect.send(ExchangeDetailsEffect.navigateToBrowser(url))
         }
     }
 
@@ -68,7 +68,7 @@ class ExchangeDetailsViewModel @Inject constructor(
                 is Result.Error -> {
                     _state.update { it.copy(isLoading = false, error = response.exception.message) }
                     _effect.send(
-                        ExchangeDetailEffect
+                        ExchangeDetailsEffect
                             .showToast(response.exception.message ?: UnknownException().message )
                     )
                 }
@@ -88,7 +88,7 @@ class ExchangeDetailsViewModel @Inject constructor(
                     val exceptionMsg = response.exception.message
                     _state.update { it.copy(error = exceptionMsg) }
                     _effect.send(
-                        ExchangeDetailEffect
+                        ExchangeDetailsEffect
                             .showToast(exceptionMsg ?: UnknownException().message )
                     )
                 }

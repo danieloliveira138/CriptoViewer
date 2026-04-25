@@ -52,13 +52,13 @@ fun ExchangeDetailsScreen(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is ExchangeDetailEffect.navigateToBrowser -> {
+                is ExchangeDetailsEffect.navigateToBrowser -> {
                     val url = effect.url.toNormalizedString()
                     uriHandler.openUri(url)
                 }
-                is ExchangeDetailEffect.navigateBack ->
+                is ExchangeDetailsEffect.navigateBack ->
                     navController.popBackStack()
-                is ExchangeDetailEffect.showToast ->
+                is ExchangeDetailsEffect.showToast ->
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
             }
         }
@@ -73,8 +73,8 @@ fun ExchangeDetailsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExchangeDetailsContent(
-    state: DetailListState?,
-    onEvent: (DetailListEvent) -> Unit = {}
+    state: ExchangeDetailsState?,
+    onEvent: (ExchangeDetailsEvent) -> Unit = {}
 ) {
     val exchangeInfo = state?.exchangeInfo
 
@@ -88,7 +88,7 @@ fun ExchangeDetailsContent(
                         fontWeight = FontWeight.Bold)
                 },
                 navigationIcon = {
-                    IconButton(onClick = { onEvent(DetailListEvent.OnBackClicked) }) {
+                    IconButton(onClick = { onEvent(ExchangeDetailsEvent.OnBackClicked) }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Back",
@@ -124,7 +124,7 @@ fun ExchangeDetailsContent(
             )
             LinkRow(
                 exchangeLinks = state?.exchangeInfo?.urls?.website ?: listOf("-----"),
-                onLinkClicked = { url -> onEvent(DetailListEvent.OnLinkClicked(url)) }
+                onLinkClicked = { url -> onEvent(ExchangeDetailsEvent.OnLinkClicked(url)) }
             )
             DescriptionSection(
                 description = exchangeInfo?.description ?: "-----"
