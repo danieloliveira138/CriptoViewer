@@ -1,3 +1,5 @@
+package com.danieloliveira138.criptoviewer.domain.usecase
+
 import com.danieloliveira138.criptoviewer.core.network.Result
 import com.danieloliveira138.criptoviewer.core.exceptions.EmptyResponseException
 import com.danieloliveira138.criptoviewer.core.exceptions.ExchangeIdIsNull

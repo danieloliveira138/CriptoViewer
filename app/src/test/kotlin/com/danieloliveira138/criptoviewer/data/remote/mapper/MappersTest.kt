@@ -1,3 +1,5 @@
+package com.danieloliveira138.criptoviewer.data.remote.mapper
+
 import com.danieloliveira138.criptoviewer.data.remote.dto.CurrencyDTO
 import com.danieloliveira138.criptoviewer.data.remote.dto.ExchangeAssetDTO
 import com.danieloliveira138.criptoviewer.data.remote.dto.ExchangeAssetResponseDTO

@@ -1,3 +1,5 @@
+package com.danieloliveira138.criptoviewer.data.repository
+
 import com.danieloliveira138.criptoviewer.core.exceptions.EmptyResponseException
 import com.danieloliveira138.criptoviewer.data.remote.api.ExchangeAPI
 import com.danieloliveira138.criptoviewer.data.remote.dto.ExchangeAssetDTO

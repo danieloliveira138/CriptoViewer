@@ -1,3 +1,5 @@
+package com.danieloliveira138.criptoviewer.presentation.ui.list
+
 import org.junit.Test
 
 class MainListViewModelTest {
